@@ -1,127 +1,113 @@
-# ocn1
-## EXPERIMENT 1: MEASUREMENT OF FIBER OPTIC LOSS- SIMULATION
-
+# Experimental-verification-of-various-Fiber-losses--Propagation-Loss-Bend-Loss
+# Propagation and Bending Losses in Plastic Fiber
 
 ## AIM
-To measure propagation loss and bending losses for two different wavelengths in plastic optical fiber using Python simulation.
+To measure propagation loss & bending losses for two different wavelengths in plastic Fiber provided with the kit.
 
-## SOFTWARE REQUIRED
-- Python 3.x
-- Python IDE
+---
+
+## EQUIPMENTS REQUIRED
+- Link-B Kit with power supply  
+- Patch chords  
+- 20MHz Dual Channel Oscilloscope  
+- 1 MHz Function Generator  
+- 1 Meter Fiber Cable  
+
+---
+
+## THEORY
+Optical Fibers are available in different varieties of materials. These materials are usually selected by taking into account their absorption characteristics for different wavelengths of light.  
+
+Since the signal in Optical Fiber is transmitted in the form of light (different in nature from electrons), one has to consider the interaction of matter with radiation to study the losses in fiber.  
+
+- **Propagation Loss:**  
+  - As light propagates from one end of Fiber to another, part of it is absorbed in the material (absorption loss).  
+  - Some light is reflected back or scattered due to impurity particles, contributing to signal loss.  
+  - Plastic Fibers typically have higher loss (~180 dB/Km).  
+
+- **Bending Loss:**  
+  - Losses occur when the angle of incidence condition is violated, causing refraction.  
+  - Smaller radius of curvature → higher loss.  
+  - Other losses occur due to coupling at LED and photo detector ends.  
+
+---
 
 ## PROCEDURE
 
-1.Import the required Python libraries, namely NumPy, Pandas, and Matplotlib, for calculations, tabulation, and plotting graphs.
+1. Connect the power supply with proper polarity to the kit link-B and switch it on.  
+2. Keep all Switch Faults in **OFF** position.  
+3. Set switch **SW8 → TX position**.  
+4. Set switch **SW9 → TX1 position**.  
+5. Set Jumper **JP5 → +12V position**.  
+6. Short Jumpers **JP6, JP9, JP10**.  
+7. Set Jumper **JP8 → sine position**.  
+8. Keep Intensity control pot **P2 → minimum position**.  
+9. Feed ~2Vpp sinusoidal signal of 1 KHz from function generator to **IN post of Analog Buffer**.  
 
-2.Define the fiber lengths, input and output amplitudes, and bending diameters with their corresponding input and output amplitudes.
+10. Connect **OUT of Analog Buffer → TX IN of Transmitter**.  
+11. Loosen cap of **SFH756V (660nm)**, insert 1m fiber, then tighten.  
+12. Connect other end of fiber to **SFH350V (Photo Transistor Detector)** carefully.  
+13. Observe detected signal at **ANALOG OUT** on oscilloscope. Adjust **P2** so signal amplitude = 2Vpp.  
 
-3.Calculate propagation loss for different fiber lengths using the input and output amplitudes.
+14. Measure peak value at ANALOG OUT = **V1**.  
+15. Replace 1m fiber with 3m fiber (no other changes). Measure peak value = **V2**.  
 
-4.Calculate bending loss for different bending diameters using the corresponding input and output amplitudes.
+**Formula:**  
+<img width="758" height="50" alt="image" src="https://github.com/user-attachments/assets/3ec6183f-3031-4862-bb34-9f59c7e29fa3" />
 
-5.Display the calculated propagation and bending losses in tabular form using Pandas DataFrames.
+Where:  
+- \(a\) = attenuation (nepers/meter)  
+- \(L1\) = fiber length for V1  
+- \(L2\) = fiber length for V2  
 
-6.Generate sinusoidal waveforms to compare input and output signals for different fiber lengths and bending diameters.
+This \(a\) is for **660nm wavelength**.  
 
-7.Plot the graphs with appropriate titles, axis labels, legends, and grid lines, and observe the variation in optical signal loss.
+---
 
-## PROGRAM
-```
-import numpy as np
-import pandas as pd
-import matplotlib.pyplot as plt
+### For 950nm Wavelength
+1. Set switch **SW9 → TX2 position**.  
+2. Set Jumper **JP7 → +12V position**.  
+3. Remove fiber from SFH756V (660nm) & SFH350V.  
+4. Insert 1m fiber between **SFH450V (950nm)** & **SFH350V**.  
+5. Observe detected signal at ANALOG OUT.  
+6. Measure peak value = **V1**.  
+7. Replace 1m fiber with 3m fiber. Measure peak value = **V2**.  
 
-# Change these values whenever you want
-frequency = 1000
+**Formula:**  
+<img width="758" height="50" alt="image" src="https://github.com/user-attachments/assets/56fbe9d6-9bff-460b-b04b-d2a73d0c3cd1" />
 
-# Propagation loss values
-length = [1, 2, 3, 4]
-input_amp = [5.0, 5.0, 5.0, 5.0]
-output_amp = [4.5, 4.2, 3.9, 3.6]
 
-# Bending loss values
-diameter = [30, 25, 20, 15]
-bend_input = [5.0, 5.0, 5.0, 5.0]
-bend_output = [4.8, 4.5, 4.0, 3.2]
+This \(a\) is for **950nm wavelength**.  
+8. Compare attenuation values for 660nm and 950nm.  
 
-# Calculate propagation loss
-prop_loss = [
-    20 * np.log10(i / o)
-    for i, o in zip(input_amp, output_amp)
-]
+---
 
-# Calculate bending loss
-bend_loss = [
-    20 * np.log10(i / o)
-    for i, o in zip(bend_input, bend_output)
-]
+## MEASUREMENT OF BENDING LOSSES
+1. Remove fiber from SFH450V (950nm) & SFH350V.  
+2. Insert 1m fiber between **SFH756V (660nm)** & **SFH350V**.  
+3. Bend fiber in a loop and measure amplitude of received signal.  
+4. Reduce loop diameter gradually to ~2 cm (not less than 1 cm).  
+5. Record output voltage readings.  
+6. Plot graph: **Received signal amplitude vs. Loop diameter**.  
 
-# Display propagation table
-print("PROPAGATION LOSS")
-display(pd.DataFrame({
-    "Length (m)": length,
-    "Input (V)": input_amp,
-    "Output (V)": output_amp,
-    "Loss (dB)": np.round(prop_loss, 2)
-}))
+---
 
-# Display bending table
-print("BENDING LOSS")
-display(pd.DataFrame({
-    "Diameter (mm)": diameter,
-    "Input (V)": bend_input,
-    "Output (V)": bend_output,
-    "Loss (dB)": np.round(bend_loss, 2)
-}))
-
-# Generate graphs
-t = np.linspace(0, 4 / frequency, 1000)
-
-plt.figure(figsize=(10, 5))
-for i in range(4):
-    plt.plot(t, input_amp[i] * np.sin(2*np.pi*frequency*t),
-             label=f"Input {length[i]} m")
-    plt.plot(t, output_amp[i] * np.sin(2*np.pi*frequency*t),
-             "--", label=f"Output {length[i]} m")
-
-plt.title("Propagation Loss")
-plt.xlabel("Time (s)")
-plt.ylabel("Voltage (V)")
-plt.grid(True)
-plt.legend(ncol=2)
-plt.show()
-
-plt.figure(figsize=(10, 5))
-for i in range(4):
-    plt.plot(t, bend_input[i] * np.sin(2*np.pi*frequency*t),
-             label=f"Input {diameter[i]} mm")
-    plt.plot(t, bend_output[i] * np.sin(2*np.pi*frequency*t),
-             "--", label=f"Output {diameter[i]} mm")
-
-plt.title("Bending Loss")
-plt.xlabel("Time (s)")
-plt.ylabel("Voltage (V)")
-plt.grid(True)
-plt.legend(ncol=2)
-plt.show()
-```
-## OBSERVATION:
+## TABULATION
 
 ## PROPAGATION LOSS:
 
 <img width="1600" height="1416" alt="WhatsApp Image 2026-10-15 at 2 34 21 PM" src="https://github.com/user-attachments/assets/8c0eb939-9a24-48a5-8a2d-c0d018d0ed80" />
 
-<img width="844" height="470" alt="image" src="https://github.com/user-attachments/assets/7d989dff-eec5-454e-8528-92b9863cfe4a" />
+
 
 ## BENDING LOSS:
 
 <img width="1280" height="1129" alt="WhatsApp Image 2026-10-15 at 2 34 01 PM" src="https://github.com/user-attachments/assets/46977b58-ff89-4ac7-adca-b0e976d4c7bf" />
 
-<img width="844" height="470" alt="image" src="https://github.com/user-attachments/assets/eb6b8948-4d4e-488d-a592-e2fc098bb9cd" />
 
 
+---
 
-## RESULT:
-Propagation loss and bending losses for 660nm wavelength is measured.
-
-Attenuation values compared and bending loss characteristics plotted.
+## RESULT
+- Propagation loss and bending losses for **660nm**  wavelengths were measured.  
+- Attenuation values compared and bending loss characteristics plotted.  
